@@ -14,7 +14,6 @@ app.get("/", (req, res)=> {
 
 app.use('/books', bookRouter);
 
-console.log(bookRouter)
 mongoose
     .connect("mongodb+srv://admin:admin@mern-book-store.v5olxpc.mongodb.net/?retryWrites=true&w=majority")
     .then(()=> {
