@@ -16,7 +16,6 @@ const Home = () => {
         axios
             .get('http://127.0.0.1:5555/books')
             .then((res) => {
-                console.log({res})
                 setBooks(res.data.data);
                 setLoading(false);
 
@@ -30,7 +29,6 @@ const Home = () => {
             })
            
     }, []);
-    console.log({books})
     return (
         <div className='p-4' >
             <div className='flex justify-between items-center'>
