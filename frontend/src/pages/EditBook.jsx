@@ -26,7 +26,7 @@ const EditBook = () => {
             })
             .catch( (error) => {
                 setLoading(false);
-                alert('An error happened. Please check console');
+                alert('An error occured. Please check console');
                 console.log(error)
             })
     }, [])
@@ -45,7 +45,7 @@ const EditBook = () => {
             })
             .catch((error)=> {
                 setLoading(false);
-                alert('An error happened. Please check console')
+                alert('An error occured. Please check console')
             })
     }
   return (
