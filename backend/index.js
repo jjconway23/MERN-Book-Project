@@ -1,9 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose")
+const cors = require("cors")
+
 const app = express()
 // const Book = require('../backend/models/bookModel')
 const bookRouter = require('./routes/booksRoute')
 app.use(express.json())
+app.use(cors())
 
 app.get("/", (req, res)=> {
     res.send("Welcome to MERN")
