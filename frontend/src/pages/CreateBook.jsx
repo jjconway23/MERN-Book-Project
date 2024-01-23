@@ -1,85 +1,75 @@
-const renderPage = () => {
-    if (loading) {
-        <Spinner />
+import {React, useState, useEffect} from 'react'
+import BackButton from '../components/BackButton'
+import Spinner from '../components/Spinner'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+
+
+const CreateBook = () => {
+    const [title, setTitle] = useState('');
+    const [author, setAuthor] = useState('');
+    const [publishYear, setPublishYear] = useState('')
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate()
+
+    const handleSaveBook = () => {
+        const data = {
+            title,
+            author,
+            publishYear
+        };
+        setLoading(true)
+        axios
+            .post('http://127.0.0.1:5555/books/', data)
+            .then(()=> {
+                setLoading(false);
+                navigate('/');
+            })
+            .catch((error)=> {
+                setLoading(false);
+                alert('An error happened. Please check console')
+            })
     }
-    else {
-        <table className='w-full border-separate border-spacing-2'>
-            <thead>
-                <tr>
-                    <th className='border border-slate-600 rounded-md'>No</th>
-                    <th className='border border-slate-600 rounded-md'>Title</th>
-                    <th className='border border-slate-600 rounded-md max-md:hidden'>Author</th>
-                    <th className='border border-slate-600 rounded-md max-md:hidden'>Publish Year</th>
-                    <th className='border border-slate-600 rounded-md'>Operations</th>
-
-
-                </tr>
-            </thead>
-            <tbody>
-            {books.map((book, index) => {
-                    <tr key={book._id} className='h-8'>
-                        <td className='border border-slate-700 rounded-md text-center'>
-                            {index + 1}
-                        </td>
-                        <td className='border border-slate-700 rounded-md text-center'>
-                            {book.title}
-                        </td>
-                        <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                            {book.author}
-                        </td>
-                        <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                            {book.publishYear}
-                        </td>
-                        <td className='border border-slate-700 rounded-md text-center'>
-                            <div className='flex justify-center gap-x-4'>
-                                <Link to={`/books/details/${book._id}`}>
-                                    <BsInfoCircle className='text 2x1 text-green-800' />
-                                </Link>
-                                <Link to={`/books/edit/${book._id}`}>
-                                    <AiOutlineEdit className='text 2x1 text-yellow-600' />
-                                </Link>
-                                <Link to={`/books/delete/${book._id}`}>
-                                    <AiOutlineDelete className='text 2x1 text-red-600' />
-                                </Link>
-                            </div>
-                        </td>
-
-                    </tr>
-                })}
-            </tbody>
-        </table>
-    }
+  return (
+    <div className='p-4'>
+        <BackButton />
+        <h1 className='text-3x1 my-4'>Create Book</h1>
+        {loading ? <Spinner /> : ''}
+        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
+            
+        <div className='my-4'>
+                <label className="text-xl mr-4 text-gray-500">Title</label>
+                <input 
+                type="text"
+                value={title}
+                onChange={(e)=> setTitle(e.target.value)}
+                className='border-2 border-gray-500 px-4 py-2 w-full' 
+                />
+            </div>
+            <div className='my-4'>
+                <label className="text-xl mr-4 text-gray-500">Author</label>
+                <input 
+                type="text"
+                value={author}
+                onChange={(e)=> setAuthor(e.target.value)}
+                className='border-2 border-gray-500 px-4 py-2 w-full' 
+                />
+            </div>
+            <div className='my-4'>
+                <label className="text-xl mr-4 text-gray-500">Publish Year</label>
+                <input 
+                type="text"
+                value={publishYear}
+                onChange={(e)=> setPublishYear(e.target.value)}
+                className='border-2 border-gray-500 px-4 py-2 w-full' 
+                />
+            </div>
+            <button className='p-2 bg-sky-300 m-8 ' onClick={handleSaveBook}>
+                Save
+            </button>
+        </div>
+    </div>
+  )
 }
 
-const mapBooks = () => {
-    books.map((book, index) => {
-        <tr key={book._id} className='h-8'>
-            <td className='border border-slate-700 rounded-md text-center'>
-                {index + 1}
-            </td>
-            <td className='border border-slate-700 rounded-md text-center'>
-                {book.title}
-            </td>
-            <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                {book.author}
-            </td>
-            <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                {book.publishYear}
-            </td>
-            <td className='border border-slate-700 rounded-md text-center'>
-                <div className='flex justify-center gap-x-4'>
-                    <Link to={`/books/details/${book._id}`}>
-                        <BsInfoCircle className='text 2x1 text-green-800' />
-                    </Link>
-                    <Link to={`/books/edit/${book._id}`}>
-                        <AiOutlineEdit className='text 2x1 text-yellow-600' />
-                    </Link>
-                    <Link to={`/books/delete/${book._id}`}>
-                        <AiOutlineDelete className='text 2x1 text-red-600' />
-                    </Link>
-                </div>
-            </td>
-
-        </tr>
-    })
-}
+export default CreateBook
